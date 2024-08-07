@@ -33,11 +33,11 @@ class AppServiceProvider extends ServiceProvider
         $allowedIPs = array_filter($allowedIPs);
 
         if (empty($allowedIPs)) {
-            return;
+            \Debugbar::disable();
         }
 
         if (in_array(Request::ip(), $allowedIPs)) {
-            \Debugbar::enable();
+            \Debugbar::disable();
         } else {
             \Debugbar::disable();
         }

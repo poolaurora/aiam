@@ -4,7 +4,6 @@ namespace Webkul\Core\Concerns;
 
 use Webkul\Core\Contracts\Currency;
 use Webkul\Core\Enums\CurrencyPositionEnum;
-use NumberFormatter;
 
 trait CurrencyFormatter
 {
@@ -25,7 +24,7 @@ trait CurrencyFormatter
      */
     public function useDefaultCurrencyFormatter(?float $price, Currency $currency): string
     {
-        $formatter = new NumberFormatter(app()->getLocale(), NumberFormatter::CURRENCY);
+        $formatter = new \NumberFormatter(app()->getLocale(), \NumberFormatter::CURRENCY);
 
         if ($currency->symbol) {
             /**
@@ -36,7 +35,7 @@ trait CurrencyFormatter
                 return $formatter->formatCurrency($price, $currency->code);
             }
 
-            $formatter->setSymbol(NumberFormatter::CURRENCY_SYMBOL, $currency->symbol);
+            $formatter->setSymbol(\NumberFormatter::CURRENCY_SYMBOL, $currency->symbol);
 
             return $formatter->format($price);
         }
@@ -49,17 +48,17 @@ trait CurrencyFormatter
      */
     public function useCustomCurrencyFormatter(?float $price, Currency $currency): string
     {
-        $formatter = new NumberFormatter(app()->getLocale(), NumberFormatter::CURRENCY);
+        $formatter = new \NumberFormatter(app()->getLocale(), \NumberFormatter::CURRENCY);
 
-        $formatter->setSymbol(NumberFormatter::CURRENCY_SYMBOL, '');
+        $formatter->setSymbol(\NumberFormatter::CURRENCY_SYMBOL, '');
 
-        $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $currency->decimal ?? 2);
+        $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $currency->decimal ?? 2);
 
         $formattedCurrency = preg_replace('/^\s+|\s+$/u', '', $formatter->format($price));
 
         if (! empty($currency->group_separator)) {
             $formattedCurrency = str_replace(
-                $formatter->getSymbol(NumberFormatter::GROUPING_SEPARATOR_SYMBOL),
+                $formatter->getSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL),
                 $currency->group_separator,
                 $formattedCurrency
             );
@@ -70,7 +69,7 @@ trait CurrencyFormatter
             && ! empty($currency->decimal_separator)
         ) {
             $formattedCurrency = str_replace(
-                $formatter->getSymbol(NumberFormatter::DECIMAL_SEPARATOR_SYMBOL),
+                $formatter->getSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL),
                 $currency->decimal_separator,
                 $formattedCurrency
             );
@@ -97,8 +96,8 @@ trait CurrencyFormatter
     {
         $code = $currency instanceof \Webkul\Core\Contracts\Currency ? $currency->code : $currency;
 
-        $formatter = new NumberFormatter(app()->getLocale().'@currency='.$code, NumberFormatter::CURRENCY);
+        $formatter = new \NumberFormatter(app()->getLocale().'@currency='.$code, \NumberFormatter::CURRENCY);
 
-        return $formatter->getSymbol(NumberFormatter::CURRENCY_SYMBOL);
+        return $formatter->getSymbol(\NumberFormatter::CURRENCY_SYMBOL);
     }
 }
