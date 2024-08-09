@@ -87,7 +87,7 @@
         {!! view_render_event('bagisto.shop.layout.footer.footer_text.before') !!}
 
         <p class="text-sm text-zinc-600 max-md:text-center">
-            © Direitos autorais 2015 - 2024, Aiam Moveis. Todos os direitos reservados.
+            © Direitos autorais 2004 - 2024, Aiam Moveis. Todos os direitos reservados.
         </p>
 
         {!! view_render_event('bagisto.shop.layout.footer.footer_text.after') !!}
